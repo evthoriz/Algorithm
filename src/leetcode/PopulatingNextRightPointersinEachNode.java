@@ -35,6 +35,30 @@ public class PopulatingNextRightPointersinEachNode {
         }
     }
 
+    // O(1) 空间。利用父节点的next关系做层级遍历
+    public void connect2(TreeLinkNode root) {
+        if (root == null) {
+            return;
+        }
+
+        TreeLinkNode parent = root;
+
+        TreeLinkNode leftGuard;
+        while (parent != null) {
+            leftGuard = parent;
+            while (parent!= null && parent.left != null) {
+
+                parent.left.next = parent.right;
+                parent.right.next = parent.next != null ? parent.next.left : null;
+                parent = parent.next;
+            }
+            parent = leftGuard.left;
+
+        }
+
+
+    }
+
     public static void main(String[] args) {
         TreeLinkNode node = new TreeLinkNode(0);
         node.left = new TreeLinkNode(1);
@@ -44,7 +68,7 @@ public class PopulatingNextRightPointersinEachNode {
         node.right.left = new TreeLinkNode(5);
         node.right.right = new TreeLinkNode(6);
 
-        new PopulatingNextRightPointersinEachNode().connect(node);
+        new PopulatingNextRightPointersinEachNode().connect2(node);
     }
 
 }
